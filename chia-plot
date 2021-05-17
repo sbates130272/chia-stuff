@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# chia-plot
+# ---------
+#
+# A simple shell script to call the chia plot tool via background
+# calls. Idealy run this inside a tmux window so it does not die on ssh
+# disconnect.
+
+TMPDIR=${TMPDIR:-/mnt/chia/tmp}
+DESTDIR=${DESTDIR:-/mnt/chia/plots}
+CHIADIR=${CHIADIR:-/home/batesste/chia-blockchain/}
+STIME=${STIME:-1800}
+CTHREADS=${CTHREADS:-4}
+CMEM=${CMEM:-16384}
+CK=${CK:-32}
+CCOUNT=${CCOUNT:-7}
+CJOBS=${CJOBS:-7}
+
+for (( i=1; i<=${CJOBS}; i++ )); do
+    ${CHIADIR}venv/bin/python ${CHIADIR}venv/bin/chia plots create \
+	      -k $CK -t $TMPDIR -2 $TMPDIR -d $DESTDIR \
+	      -n $CCOUNT -r $CTHREADS -b $CMEM &
+    sleep $STIME
+done
