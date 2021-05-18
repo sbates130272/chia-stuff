@@ -7,7 +7,7 @@
 # A tmux script to setup my favourite chia command line
 # environment. Includes panes for htop, iostat, df and more.
 
-SESSION=${SESSION:-chia-metrics-test}
+SESSION=${SESSION:-chia-metrics}
 CHIA_HOME=${CHIA_HOME:-/home/batesste/.chia/mainnet/}
 ODIR=${ODIR:-/mnt/chia/plots}
 tmux -2 new-session -d -s $SESSION
@@ -16,7 +16,7 @@ tmux -2 new-session -d -s $SESSION
 tmux new-window -t $SESSION:1 -n 'Chia'
 tmux split-window -h -p 50
 tmux select-pane -t 0
-tmux send-keys "htop -C" C-m
+tmux send-keys "htop" C-m
 tmux split-window -v -p 50
 tmux select-pane -t 1
 tmux send-keys "tail -F ${CHIA_HOME}log/debug.log" C-m
