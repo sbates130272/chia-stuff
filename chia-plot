@@ -17,6 +17,19 @@ CK=${CK:-32}
 CCOUNT=${CCOUNT:-7}
 CJOBS=${CJOBS:-7}
 
+  # Ensure both the temp and output directories are writable.
+
+if [ ! -w $TMPDIR ] ; then
+    echo $TMPDIR is not writable!
+    exit 1
+fi
+if [ ! -w $DESTDIR ] ; then
+    echo $DESTDIR is not writable!
+    exit 1
+fi
+
+  # Call the main loop
+
 for (( i=1; i<=${CJOBS}; i++ )); do
     ${CHIADIR}venv/bin/python ${CHIADIR}venv/bin/chia plots create \
 	      -k $CK -t $TMPDIR -2 $TMPDIR -d $DESTDIR \
